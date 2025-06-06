@@ -27,9 +27,8 @@ The CLI Agent is a powerful, tool-augmented agent designed to assist with a wide
 2.  **Install dependencies:**
     It's recommended to create a virtual environment first.
     ```bash
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     ```
-    *(Note: `requirements.txt` will need to be created with the project's dependencies.)*
 3.  **Configure the agent:**
     Copy the example configuration file (if one is provided, e.g., `config.example.yaml`) to [`config.yaml`](config.yaml:1) and customize it according to your needs. At a minimum, you will need to review and potentially update settings in [`config.yaml`](config.yaml:1).
 
@@ -38,10 +37,16 @@ The CLI Agent is a powerful, tool-augmented agent designed to assist with a wide
 To run the agent with a specific task:
 
 ```bash
-python agent.py "Your task description here, for example: list all python files in the current directory"
+python agent.py "list all python files in the current directory"
 ```
 
-The agent also supports an interactive mode, which can be triggered by running the agent without a specific task or with a flag (details to be defined). This mode allows for a more conversational approach to task execution.
+For an interactive session simply run:
+
+```bash
+python agent.py
+```
+
+This starts a conversation where you can iteratively provide tasks and review the agent's responses.
 
 ## Available Tools
 
@@ -64,6 +69,30 @@ The agent's behavior is controlled through the [`config.yaml`](config.yaml:1) fi
 *   API keys for various services
 
 Refer to the comments within [`config.yaml`](config.yaml:1) (or `config.example.yaml`) for detailed explanations of each configuration option.
+
+### Required Environment Variables
+
+The following environment variables must be set for the tools to function correctly:
+
+* `TAVILY_API_KEY` - API key for Tavily web search used by `tavilytool.py`.
+* `GOOGLE_APPLICATION_CREDENTIALS` - Path to the Google Cloud service account JSON file.
+
+Example:
+
+```bash
+export TAVILY_API_KEY="your-tavily-key"
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials.json"
+```
+
+### Tavily Web Search CLI
+
+You can use the standalone search script `tavilytool.py` to quickly query the web:
+
+```bash
+python tavilytool.py "open source llm projects" --depth advanced --max-results 3
+```
+
+This requires the `TAVILY_API_KEY` environment variable to be set as shown above.
 
 ## Contributing
 
