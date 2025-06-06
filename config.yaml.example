@@ -1,0 +1,17 @@
+gcp:
+  project_id: "your-gcp-project-id"
+  location: "us-central1"
+llm:
+  model_name: "gemini-1.5-flash-001"
+agent_settings:
+  max_iterations: 5
+  additional_iterations: 3
+  interactive_default: true
+  safe_mode_default: true
+api_retry:
+  max_retries: 3
+  base_retry_delay_seconds: 2
+logging:
+  default_level: "INFO"
+  log_to_file: false
+  log_file_path: "agent.log"
