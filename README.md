@@ -27,9 +27,10 @@ The CLI Agent is a powerful, tool-augmented agent designed to assist with a wide
 2.  **Install dependencies:**
     It's recommended to create a virtual environment first.
     ```bash
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     ```
-    *(Note: `requirements.txt` will need to be created with the project's dependencies.)*
+    The requirements file lists runtime packages such as `google-cloud-aiplatform`,
+    `vertexai`, `requests`, and `PyYAML`.
 3.  **Configure the agent:**
     Copy the example configuration file (if one is provided, e.g., `config.example.yaml`) to [`config.yaml`](config.yaml:1) and customize it according to your needs. At a minimum, you will need to review and potentially update settings in [`config.yaml`](config.yaml:1).
 
