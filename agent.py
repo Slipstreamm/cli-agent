@@ -14,7 +14,8 @@ import uuid # Added for trace IDs
 from typing import Dict, Any, List, Optional, Iterable, Tuple, MutableMapping
 
 from google.cloud import aiplatform
-from vertexai.generative_models import GenerativeModel, Part, GenerateContentResponse # type: ignore
+from vertexai.generative_models import GenerativeModel, Part  # type: ignore
+from google.cloud.aiplatform_v1beta1.types import GenerateContentResponse
 import vertexai # type: ignore
 from google.api_core import exceptions as google_api_exceptions # Added for specific API error handling
 
