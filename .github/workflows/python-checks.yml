@@ -1,0 +1,19 @@
+name: Python Checks
+
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pylint
+        run: pip install pylint
+      - name: Run pylint
+        run: pylint $(git ls-files '*.py')
+      - name: Compile Python
+        run: python -m py_compile $(git ls-files '*.py')
