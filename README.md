@@ -68,8 +68,8 @@ Refer to the comments within [`config.yaml`](config.yaml:1) (or `config.example.
 
 ## Contributing
 
-Contributions are welcome! Please see `CONTRIBUTING.md` (to be created) for guidelines on how to contribute to this project.
+Contributions are welcome! Please see `CONTRIBUTING.md` for guidelines on how to contribute to this project.
 
 ## License
 
-This project is licensed under the [Your License Name] License - see the `LICENSE` file (to be created) for details.
+This project is licensed under the BSD 3-Clause License - see the `LICENSE` file for details.
