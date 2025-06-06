@@ -29,5 +29,5 @@ __all__ = [
     "SearchDirectoryFilesTool",
     "SearchFileContentTool",
     "WriteFileTool",
-    "GitTool"
+    "GitTool",
 ]

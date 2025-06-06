@@ -2,6 +2,7 @@ import subprocess
 from typing import Dict, Any, Optional
 from tools.base_tool import BaseTool
 
+
 class GitTool(BaseTool):
     """
     A tool to execute basic Git commands.
@@ -31,11 +32,16 @@ class GitTool(BaseTool):
         return {
             "command": {
                 "type": "string",
-                "description": "The Git command to execute (e.g., 'status', 'add .', 'commit -m \"message\"')."
+                "description": "The Git command to execute (e.g., 'status', 'add .', 'commit -m \"message\"').",
             }
         }
 
-    def execute(self, command: str, agent_safe_mode: bool = False, trace_id: Optional[str] = None) -> Dict[str, Any]:
+    def execute(
+        self,
+        command: str,
+        agent_safe_mode: bool = False,
+        trace_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Executes the given Git command using subprocess.run.
 
@@ -55,7 +61,7 @@ class GitTool(BaseTool):
                 shell=True,
                 capture_output=True,
                 text=True,
-                check=False  # Do not raise an exception for non-zero exit codes
+                check=False,  # Do not raise an exception for non-zero exit codes
             )
 
             success = result.returncode == 0
@@ -69,7 +75,7 @@ class GitTool(BaseTool):
                 "stdout": result.stdout.strip(),
                 "stderr": result.stderr.strip(),
                 "return_code": result.returncode,
-                "error_message": error_message
+                "error_message": error_message,
             }
         except Exception as e:
             return {
@@ -78,5 +84,5 @@ class GitTool(BaseTool):
                 "stdout": "",
                 "stderr": str(e),
                 "return_code": 1,  # Indicate an error
-                "error_message": str(e)
+                "error_message": str(e),
             }

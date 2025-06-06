@@ -5,6 +5,7 @@ from typing import Dict, Any, List, Optional
 
 from .base_tool import BaseTool
 
+
 class SearchDirectoryFilesTool(BaseTool):
     """
     Tool to recursively search for a string or regex pattern in files within a directory.
@@ -28,34 +29,34 @@ class SearchDirectoryFilesTool(BaseTool):
             "properties": {
                 "directory_path": {
                     "type": "string",
-                    "description": "The path to the directory to search within."
+                    "description": "The path to the directory to search within.",
                 },
                 "query": {
                     "type": "string",
-                    "description": "The string or regex pattern to search for."
+                    "description": "The string or regex pattern to search for.",
                 },
                 "is_regex": {
                     "type": "boolean",
                     "description": "Optional. If true, the 'query' is treated as a regex pattern. Defaults to false.",
-                    "default": False
+                    "default": False,
                 },
                 "case_sensitive": {
                     "type": "boolean",
                     "description": "Optional. If true, the search is case-sensitive. Defaults to true.",
-                    "default": True
+                    "default": True,
                 },
                 "glob_pattern": {
                     "type": "string",
                     "description": "Optional. A glob pattern (e.g., '*.py', '*.txt') to filter which files are searched. Defaults to '*' (all files).",
-                    "default": "*"
+                    "default": "*",
                 },
                 "recursive": {
                     "type": "boolean",
                     "description": "Optional. If true, searches recursively into subdirectories. Defaults to true.",
-                    "default": True
-                }
+                    "default": True,
+                },
             },
-            "required": ["directory_path", "query"]
+            "required": ["directory_path", "query"],
         }
 
     def execute(
@@ -66,9 +67,9 @@ class SearchDirectoryFilesTool(BaseTool):
         case_sensitive: bool = True,
         glob_pattern: str = "*",
         recursive: bool = True,
-        agent_safe_mode: bool = False, # Added for consistency, though not used by this non-destructive tool
-        trace_id: Optional[str] = None, # Added trace_id
-        **kwargs: Any  # pylint: disable=unused-argument
+        agent_safe_mode: bool = False,  # Added for consistency, though not used by this non-destructive tool
+        trace_id: Optional[str] = None,  # Added trace_id
+        **kwargs: Any,  # pylint: disable=unused-argument
     ) -> Dict[str, Any]:
         """
         Executes the search operation.
@@ -90,7 +91,7 @@ class SearchDirectoryFilesTool(BaseTool):
             return {"success": False, "error": f"Directory not found: {directory_path}"}
 
         found_files_info: List[Dict[str, Any]] = []
-        
+
         compiled_pattern = None
         if is_regex:
             try:
@@ -109,7 +110,9 @@ class SearchDirectoryFilesTool(BaseTool):
                     matches_count = 0
                     try:
                         # Try to open as text, ignore errors for binary files or encoding issues
-                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        with open(
+                            file_path, "r", encoding="utf-8", errors="ignore"
+                        ) as f:
                             content = f.read()
                             if compiled_pattern:  # Regex search
                                 matches_count = len(compiled_pattern.findall(content))
@@ -118,10 +121,12 @@ class SearchDirectoryFilesTool(BaseTool):
                                     matches_count = content.count(query)
                                 else:
                                     matches_count = content.lower().count(query.lower())
-                        
+
                         if matches_count > 0:
-                            found_files_info.append({"file_path": file_path, "matches_count": matches_count})
-                    except OSError: 
+                            found_files_info.append(
+                                {"file_path": file_path, "matches_count": matches_count}
+                            )
+                    except OSError:
                         # Could be a directory masquerading as a file, or permission error, etc.
                         # Skip this file.
                         pass
@@ -129,7 +134,7 @@ class SearchDirectoryFilesTool(BaseTool):
                         # Catch other potential errors during file processing (e.g. rare Unicode issues not caught by 'ignore')
                         # Skip this file.
                         pass
-            
+
             # If not recursive, and we've processed the top-level directory, we can stop.
             # The `dirs[:] = []` handles this by preventing os.walk from yielding subdirectories.
             # However, if directory_path itself has no subdirectories, os.walk will naturally stop.
