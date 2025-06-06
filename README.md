@@ -29,6 +29,8 @@ The CLI Agent is a powerful, tool-augmented agent designed to assist with a wide
     ```bash
     pip install -r requirements.txt
     ```
+    The requirements file lists runtime packages such as `google-cloud-aiplatform`,
+    `vertexai`, `requests`, and `PyYAML`.
 3.  **Configure the agent:**
     Copy the example configuration file (if one is provided, e.g., `config.example.yaml`) to [`config.yaml`](config.yaml:1) and customize it according to your needs. At a minimum, you will need to review and potentially update settings in [`config.yaml`](config.yaml:1).
 
@@ -96,8 +98,8 @@ This requires the `TAVILY_API_KEY` environment variable to be set as shown above
 
 ## Contributing
 
-Contributions are welcome! Please see `CONTRIBUTING.md` (to be created) for guidelines on how to contribute to this project.
+Contributions are welcome! Please see `CONTRIBUTING.md` for guidelines on how to contribute to this project.
 
 ## License
 
-This project is licensed under the [Your License Name] License - see the `LICENSE` file (to be created) for details.
+This project is licensed under the BSD 3-Clause License - see the `LICENSE` file for details.
