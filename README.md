@@ -48,9 +48,15 @@ For an interactive session simply run:
 python agent.py
 ```
 
+
 This starts a conversation where you can iteratively provide tasks and review the agent's responses.
 
-The agent will automatically restore files ending with `.bak` before it begins working. Place backups with this extension alongside files you want preserved (for example `example.txt.bak`).
+### Automatic Backup Restoration
+
+Before executing any commands the agent looks for files ending with `.bak` in
+the current directory tree. If it finds a file such as `example.txt.bak`, it
+copies it over `example.txt` so you start with the last known good state. Keep a
+`.bak` copy next to any file you want preserved.
 
 ## Available Tools
 
