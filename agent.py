@@ -13,6 +13,8 @@ import logging  # Added for logging
 import uuid  # Added for trace IDs
 from typing import Dict, Any, List, Optional, Iterable, Tuple, MutableMapping
 
+from backup_utils import restore_backups
+
 from google.cloud import aiplatform
 from vertexai.generative_models import GenerativeModel, Part  # type: ignore
 from google.cloud.aiplatform_v1beta1.types import GenerateContentResponse
@@ -945,6 +947,9 @@ def main():
 
     # Setup logging (pass CLI verbose flag)
     setup_logging(config, verbose_cli=args.verbose)
+
+    # Restore any *.bak files so the agent works with a clean slate
+    restore_backups()
 
     # Determine agent settings, allowing CLI overrides
     agent_settings = config.get("agent_settings", {})
