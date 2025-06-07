@@ -50,6 +50,8 @@ python agent.py
 
 This starts a conversation where you can iteratively provide tasks and review the agent's responses.
 
+The agent will automatically restore files ending with `.bak` before it begins working. Place backups with this extension alongside files you want preserved (for example `example.txt.bak`).
+
 ## Available Tools
 
 The agent comes equipped with a suite of built-in tools to perform various operations. Some examples include:
