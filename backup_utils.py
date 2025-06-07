@@ -3,11 +3,19 @@ import shutil
 
 
 def restore_backups(search_dir: str = ".", extension: str = ".bak") -> None:
-    """Restore backups in a directory recursively.
+    """Restore backups in a directory tree.
 
-    For each file ending with ``extension`` in ``search_dir``, copy it back to
-    the original file without the extension. This allows users to easily revert
-    any previous modifications made by the agent.
+    The agent calls this helper at startup before it begins modifying files.
+    It walks ``search_dir`` recursively looking for files that end with
+    ``extension`` (by default ``.bak``). When it finds ``foo.txt.bak`` it copies
+    the backup over ``foo.txt`` so that any previous state is restored.
+
+    Parameters
+    ----------
+    search_dir:
+        Root directory to scan. Defaults to the current working directory.
+    extension:
+        Backup file extension. Defaults to ``.bak``.
     """
     for root, _, files in os.walk(search_dir):
         for filename in files:
