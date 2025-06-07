@@ -15,3 +15,7 @@ logging:
   default_level: "INFO"
   log_to_file: false
   log_file_path: "agent.log"
+backup:
+  extension: ".bak"
+  directory:
+

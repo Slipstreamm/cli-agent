@@ -13,6 +13,8 @@ from tools.search_directory_files_tool import SearchDirectoryFilesTool
 from tools.search_file_content_tool import SearchFileContentTool
 from tools.write_file_tool import WriteFileTool
 from tools.git_tool import GitTool
+from tools.create_backup_tool import CreateBackupTool
+from tools.restore_backups_tool import RestoreBackupsTool
 
 __all__ = [
     "ApplyPatchTool",
@@ -30,4 +32,6 @@ __all__ = [
     "SearchFileContentTool",
     "WriteFileTool",
     "GitTool",
+    "CreateBackupTool",
+    "RestoreBackupsTool",
 ]

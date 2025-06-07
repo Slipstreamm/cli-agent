@@ -352,10 +352,15 @@ The output of a tool, especially `execute_command`, is your only source of truth
             # Pass trace_id to the tool's execute method
             if not tool_instance.get_parameters_schema() and not parameters:
                 return tool_instance.execute(
-                    agent_safe_mode=self.safe_mode, trace_id=trace_id
+                    agent_safe_mode=self.safe_mode,
+                    trace_id=trace_id,
+                    config=self.config,
                 )
             return tool_instance.execute(
-                **parameters, agent_safe_mode=self.safe_mode, trace_id=trace_id
+                **parameters,
+                agent_safe_mode=self.safe_mode,
+                trace_id=trace_id,
+                config=self.config,
             )
         except TypeError as te:
             param_schema = tool_instance.get_parameters_schema()
@@ -936,6 +941,16 @@ def main():
         default=None,  # Default to None to check if it was set
         help="Enable safe mode (restricts certain tool actions). Overrides config if set. Use --safe_mode or --no-safe_mode.",
     )
+    parser.add_argument(
+        "--backup_extension",
+        type=str,
+        help="Backup file extension (overrides config).",
+    )
+    parser.add_argument(
+        "--backup_dir",
+        type=str,
+        help="Directory to store backups (overrides config).",
+    )
 
     args = parser.parse_args()
 
@@ -948,8 +963,17 @@ def main():
     # Setup logging (pass CLI verbose flag)
     setup_logging(config, verbose_cli=args.verbose)
 
+    backup_cfg = config.get("backup", {})
+    backup_extension = args.backup_extension or backup_cfg.get("extension", ".bak")
+    backup_dir = args.backup_dir or backup_cfg.get("directory")
+    config.setdefault("backup", {})["extension"] = backup_extension
+    config["backup"]["directory"] = backup_dir
+
     # Restore any *.bak files so the agent works with a clean slate
-    restore_backups()
+    restore_search_dir = backup_dir or "."
+    restore_backups(
+        search_dir=restore_search_dir, extension=backup_extension, target_root="."
+    )
 
     # Determine agent settings, allowing CLI overrides
     agent_settings = config.get("agent_settings", {})

@@ -53,10 +53,29 @@ This starts a conversation where you can iteratively provide tasks and review th
 
 ### Automatic Backup Restoration
 
-Before executing any commands the agent looks for files ending with `.bak` in
-the current directory tree. If it finds a file such as `example.txt.bak`, it
-copies it over `example.txt` so you start with the last known good state. Keep a
-`.bak` copy next to any file you want preserved.
+Before executing any commands the agent looks for files ending with a backup
+extension in the configured backup directory (default `.bak` files next to the
+original). If it finds a file such as `example.txt.bak`, it copies it over
+`example.txt` so you start with the last known good state.
+
+### Managing Backups
+
+Backups are created automatically whenever a tool overwrites a file. The backup
+extension and directory can be customised via `config.yaml` or CLI flags.
+
+1. To manually create a backup, use the `create_backup` tool:
+
+   ```bash
+   python agent.py "create_backup" --interactive false --max_iterations 1 \
+       --config_path config.yaml
+   ```
+
+2. To restore backups on demand, call the `restore_backups` tool in a similar
+   fashion.
+
+By default backups are saved as `<filename>.bak` in the same directory as the
+original file. Set `backup.directory` in `config.yaml` or pass `--backup_dir` to
+store them elsewhere.
 
 ## Available Tools
 

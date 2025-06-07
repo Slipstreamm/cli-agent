@@ -1,6 +1,7 @@
 import os
 from typing import Dict, Any, Optional
 from .base_tool import BaseTool
+from backup_utils import create_backup
 
 
 class WriteFileTool(BaseTool):
@@ -30,6 +31,11 @@ class WriteFileTool(BaseTool):
     ) -> Dict[str, Any]:
         """Write content to a file."""
         # trace_id is available here if needed for logging within the tool
+        config = kwargs.get("config", {})
+        backup_cfg = config.get("backup", {})
+        backup_ext = backup_cfg.get("extension", ".bak")
+        backup_dir = backup_cfg.get("directory")
+
         try:
             if agent_safe_mode and mode == "w" and os.path.exists(file_path):
                 confirm = input(
@@ -43,6 +49,10 @@ class WriteFileTool(BaseTool):
 
             # Use a default encoding if None is provided, though the signature defaults to 'utf-8'
             effective_encoding = encoding if encoding is not None else "utf-8"
+
+            if os.path.exists(file_path) and "w" in mode:
+                create_backup(file_path, extension=backup_ext, backup_dir=backup_dir)
+
             with open(file_path, mode, encoding=effective_encoding) as f:
                 f.write(content)
             return {

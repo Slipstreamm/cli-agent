@@ -2,6 +2,7 @@ import re
 import os
 from typing import Dict, Any, List, Optional
 from .base_tool import BaseTool
+from backup_utils import create_backup
 
 
 class ApplyPatchTool(BaseTool):
@@ -222,9 +223,20 @@ class ApplyPatchTool(BaseTool):
 
             modified_content = "\n".join(lines)
 
+            config = kwargs.get("config", {})
+            backup_cfg = config.get("backup", {})
+            backup_ext = backup_cfg.get("extension", ".bak")
+            backup_dir = backup_cfg.get("directory")
+
             file_was_modified = False
             if modified_content != original_content:
                 if not dry_run:  # Only write if not in dry run mode
+                    if os.path.exists(file_path):
+                        create_backup(
+                            file_path,
+                            extension=backup_ext,
+                            backup_dir=backup_dir,
+                        )
                     with open(file_path, "w", encoding="utf-8") as f:
                         f.write(modified_content)
                     file_was_modified = True
